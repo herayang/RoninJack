@@ -9,23 +9,23 @@ enum voiceCommand { Left, Right, Null}
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float moveMultiply; //The amount to multiply the player movement input by.
-    [SerializeField] private float moveSpeed;
-    private Transform TF;//The Transform for the attached object, set at start.
+    [SerializeField]
+    private float moveSpeed = 0.0f;
+    [SerializeField]
+    private Transform camTran = null;
+    private float[] bounds = new float[2] { 9, -9};
 
     private KeywordRecognizer keywordRecognizer;
     private Dictionary<string, Action> atctions = new Dictionary<string, Action>();
     private voiceCommand vCommand = voiceCommand.Null;
 
-    // Start is called before the first frame update
+    // Start is called before the first frame update.
     void Start()
     {
-        TF = gameObject.GetComponent<Transform>(); //Get attached objects Transform.
-
+        //Seting up voiceCommands.
         atctions.Add("left", MoveLeft);
         atctions.Add("right", MoveRight);
         atctions.Add("stop", MoveStop);
-
         keywordRecognizer = new KeywordRecognizer(atctions.Keys.ToArray());
         keywordRecognizer.OnPhraseRecognized += RecognizedKeyword;
         keywordRecognizer.Start();
@@ -34,23 +34,42 @@ public class Player : MonoBehaviour
     //Movement should be done in FixedUpdate to look proper.
     private void FixedUpdate()
     {
-        if (vCommand == voiceCommand.Left) TF.position += new Vector3((moveSpeed * moveMultiply) * -1, 0, 0);
-        if (vCommand == voiceCommand.Right) TF.position += new Vector3(moveSpeed * moveMultiply, 0, 0);
+        PlayerMovement();
 
-        if (Input.GetAxis("Horizontal") != 0) TF.position += new Vector3(Input.GetAxis("Horizontal") * moveMultiply, 0, 0);
-        if (Input.GetAxis("Vertical") != 0) TF.position += new Vector3(0, 0, Input.GetAxis("Vertical") * moveMultiply);
+        camTran.position += new Vector3(0, 0, moveSpeed) * Time.deltaTime;
+    }
+
+    private void PlayerMovement()
+    {
+        //Voice Movement.
+        if (vCommand == voiceCommand.Left)
+        {
+            transform.Translate(new Vector3(moveSpeed * -1, 0, moveSpeed) * Time.deltaTime);
+        }
+        else if (vCommand == voiceCommand.Right)
+        {
+            transform.Translate(new Vector3(moveSpeed, 0, moveSpeed) * Time.deltaTime);
+        }
+        else
+        {
+            transform.Translate(new Vector3(0, 0, moveSpeed) * Time.deltaTime);
+        }
+
+        //Keyboard Input, should be commented out after testing is done.
+        if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+        {
+            transform.Translate(new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0) * Time.deltaTime);
+        }
     }
 
     private void MoveLeft()
     {
         vCommand = voiceCommand.Left;
     }
-
     private void MoveRight()
     {
         vCommand = voiceCommand.Right;
     }
-
     private void MoveStop()
     {
         vCommand = voiceCommand.Null;
@@ -58,7 +77,7 @@ public class Player : MonoBehaviour
 
     private void RecognizedKeyword(PhraseRecognizedEventArgs speach)
     {
-        Debug.Log(speach.text);
+        Debug.Log(speach.text); //For testing to know that the game heard you talk.
         atctions[speach.text].Invoke();
     }
 }
