@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     private float moveSpeed = 0.0f;
     [SerializeField]
     private Transform camTran = null;
-    private float[] bounds = new float[2] { 9, -9};
+    private float[] playerBounds = new float[2] { -9, 9};//X bounds min/max
 
     private KeywordRecognizer keywordRecognizer;
     private Dictionary<string, Action> atctions = new Dictionary<string, Action>();
@@ -42,11 +42,11 @@ public class Player : MonoBehaviour
     private void PlayerMovement()
     {
         //Voice Movement.
-        if (vCommand == voiceCommand.Left)
+        if (vCommand == voiceCommand.Left && transform.position.x > playerBounds[0])
         {
             transform.Translate(new Vector3(moveSpeed * -1, 0, moveSpeed) * Time.deltaTime);
         }
-        else if (vCommand == voiceCommand.Right)
+        else if (vCommand == voiceCommand.Right && transform.position.x < playerBounds[1])
         {
             transform.Translate(new Vector3(moveSpeed, 0, moveSpeed) * Time.deltaTime);
         }
