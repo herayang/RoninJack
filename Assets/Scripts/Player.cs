@@ -54,8 +54,8 @@ public class Player : MonoBehaviour
             transform.Translate(new Vector3(0, 0, moveSpeed) * Time.deltaTime);
         }
 
-        if (Input.GetAxis("Horizontal") != 0) TF.position += new Vector3(Input.GetAxis("Horizontal") * moveMultiply, 0, 0);
-        if (Input.GetAxis("Vertical") != 0) TF.position += new Vector3(0, 0, Input.GetAxis("Vertical") * moveMultiply);
+        if (Input.GetAxis("Horizontal") != 0) transform.position += new Vector3(Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime, 0, 0);
+        if (Input.GetAxis("Vertical") != 0) transform.position += new Vector3(0, 0, Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime);
     }
 
     private void MoveLeft()
