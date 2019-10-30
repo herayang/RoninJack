@@ -86,7 +86,10 @@ public class Player : MonoBehaviour
 
     private void Slide()
     {
-        StartCoroutine(SlideCoroutine());
+        if(invariable == false)
+        {
+            StartCoroutine(SlideCoroutine());
+        }
     }
 
     private void Attack()
@@ -96,7 +99,10 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        StartCoroutine(JumpCoroutine());
+        if(transform.localPosition.y <= 0)
+        {
+            StartCoroutine(JumpCoroutine());
+        }
     }
 
     private void RecognizedKeyword(PhraseRecognizedEventArgs speach)
