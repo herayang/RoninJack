@@ -5,26 +5,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Windows.Speech;
 
-enum voiceCommand { Left, Right, Null}
-
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private float moveSpeed = 0.0f;
-    private Rigidbody RB;
-    public bool invariable = false;
+    [SerializeField] private float moveSpeed = 3.0f;
+    [SerializeField] private float jumpHight = 3.0f;
+    [SerializeField] private float jumpSpeed = 0.25f;
+    [SerializeField] private bool invariable = false;
 
+    private int Score = 0;
+    private Rigidbody RB;
+    private Animation ANIM;
     private KeywordRecognizer keywordRecognizer;
     private Dictionary<string, Action> atctions = new Dictionary<string, Action>();
-    private voiceCommand vCommand = voiceCommand.Null;
 
     void Start()
     {
         RB = gameObject.GetComponent<Rigidbody>();
-
-        atctions.Add("left", MoveLeft);
-        atctions.Add("right", MoveRight);
-        atctions.Add("stop", MoveStop);
+        ANIM = gameObject.GetComponent<Animation>();
 
         atctions.Add("slide", Slide);
         atctions.Add("attack ", Attack);
@@ -40,7 +37,8 @@ public class Player : MonoBehaviour
     {
         transform.parent.Translate(new Vector3(0, 0, moveSpeed) * Time.deltaTime, Space.World);
         KeyboardCommands();
-        PlayerMovement();
+        Score = (int)transform.parent.localPosition.z;
+        UI.SUI.UpdateScore(Score);
     }
 
     private void KeyboardCommands()
@@ -50,38 +48,6 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space)) Jump();
         if (Input.GetAxis("Horizontal") != 0) transform.position += new Vector3(Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime, 0, 0);
         if (Input.GetAxis("Vertical") != 0) transform.position += new Vector3(0, 0, Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime);
-    }
-
-    private void PlayerMovement()
-    {
-        //Voice Movement.
-        if (vCommand == voiceCommand.Left)
-        {
-            transform.Translate(new Vector3(moveSpeed * -1, 0, 0) * Time.deltaTime);
-        }
-        else if (vCommand == voiceCommand.Right)
-        {
-            transform.Translate(new Vector3(moveSpeed, 0, 0) * Time.deltaTime);
-        }
-        else
-        {
-            transform.Translate(new Vector3(0, 0, 0) * Time.deltaTime);
-        }
-    }
-
-    private void MoveLeft()
-    {
-        vCommand = voiceCommand.Left;
-    }
-
-    private void MoveRight()
-    {
-        vCommand = voiceCommand.Right;
-    }
-
-    private void MoveStop()
-    {
-        vCommand = voiceCommand.Null;
     }
 
     private void Slide()
@@ -99,7 +65,7 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        if(transform.localPosition.y <= 0)
+        if(transform.position.y <= 0)
         {
             StartCoroutine(JumpCoroutine());
         }
@@ -119,13 +85,30 @@ public class Player : MonoBehaviour
 
     private IEnumerator JumpCoroutine()
     {
+        ANIM.Play("Jump");
+        yield return new WaitForFixedUpdate();
         RB.useGravity = false;
         float playersY = transform.position.y;
-        while (transform.position.y < (playersY + 3))
+        while (transform.position.y < (playersY + jumpHight))
         {
-            transform.Translate(new Vector3(0, 0.25f, 0));
+            transform.Translate(new Vector3(0, jumpSpeed, 0));
             yield return null;
         }
         RB.useGravity = true;
+        ANIM.Blend("Run");
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Obstacle")
+        {
+            UI.SUI.EndLevel(false);
+            gameObject.SetActive(false);
+        }
+        else if(collision.gameObject.tag == "End")
+        {
+            UI.SUI.EndLevel(true);
+            gameObject.SetActive(false);
+        }
     }
 }

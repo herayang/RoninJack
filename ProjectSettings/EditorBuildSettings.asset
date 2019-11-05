@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Hunters Test Scene.unity
+    guid: 586f825bcbf47814f9b91232b48136e7
   m_configObjects: {}
