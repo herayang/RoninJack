@@ -95,7 +95,7 @@ public class Player : MonoBehaviour
             yield return null;
         }
         RB.useGravity = true;
-        ANIM.Blend("Run");
+        ANIM.CrossFade("Run", 1);
     }
 
     private void OnCollisionEnter(Collision collision)
