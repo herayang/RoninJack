@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float moveSpeed = 3.0f;
     [SerializeField] private float jumpHight = 3.0f;
     [SerializeField] private float jumpSpeed = 0.25f;
+    [SerializeField] private bool canJump = false;
     [SerializeField] private bool invariable = false;
 
     private int Score = 0;
@@ -65,7 +66,7 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        if(transform.position.y <= 0)
+        if(canJump)
         {
             StartCoroutine(JumpCoroutine());
         }
@@ -85,8 +86,8 @@ public class Player : MonoBehaviour
 
     private IEnumerator JumpCoroutine()
     {
+        canJump = false;
         ANIM.Play("Jump");
-        yield return new WaitForFixedUpdate();
         RB.useGravity = false;
         float playersY = transform.position.y;
         while (transform.position.y < (playersY + jumpHight))
@@ -109,6 +110,11 @@ public class Player : MonoBehaviour
         {
             UI.SUI.EndLevel(true);
             gameObject.SetActive(false);
+        }
+
+        if (canJump == false & collision.gameObject.isStatic)
+        {
+            canJump = true;
         }
     }
 }
