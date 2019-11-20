@@ -10,8 +10,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float moveSpeed = 3.0f;
     [SerializeField] private float jumpHight = 3.0f;
     [SerializeField] private float jumpSpeed = 0.25f;
-    [SerializeField] private bool canJump = false;
-    [SerializeField] private bool invariable = false;
+    [SerializeField] private bool canJump = true;
+    [SerializeField] private bool canAnimate = true;
 
     private int Score = 0;
     private Rigidbody RB;
@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
 
     private void Slide()
     {
-        if(invariable == false)
+        if(canAnimate)
         {
             StartCoroutine(SlideCoroutine());
         }
@@ -61,12 +61,15 @@ public class Player : MonoBehaviour
 
     private void Attack()
     {
-        //Nothing here for now;
+        if (canAnimate)
+        {
+            StartCoroutine(AttackCoroutine());
+        }
     }
 
     private void Jump()
     {
-        if(canJump)
+        if(canAnimate && canJump)
         {
             StartCoroutine(JumpCoroutine());
         }
@@ -79,15 +82,16 @@ public class Player : MonoBehaviour
 
     private IEnumerator SlideCoroutine()
     {
-        invariable = true;
-        yield return new WaitForSeconds(5);
-        invariable = false;
+        canAnimate = false;
+        yield return new WaitForSeconds(2);
+        canAnimate = true;
     }
 
     private IEnumerator JumpCoroutine()
     {
-        canJump = false;
-        ANIM.Play("Jump");
+        canAnimate = false;
+        ANIM.Play("BetterJump");
+        ANIM.CrossFadeQueued("Run", 0.5f, QueueMode.CompleteOthers);
         RB.useGravity = false;
         float playersY = transform.position.y;
         while (transform.position.y < (playersY + jumpHight))
@@ -96,7 +100,16 @@ public class Player : MonoBehaviour
             yield return null;
         }
         RB.useGravity = true;
-        ANIM.CrossFade("Run", 1);
+        canAnimate = true;
+    }
+
+    private IEnumerator AttackCoroutine()
+    {
+        canAnimate = false;
+        ANIM.Play("RunningAttack");
+        ANIM.CrossFadeQueued("Run", 0.5f, QueueMode.CompleteOthers);
+        yield return new WaitForSeconds(1);
+        canAnimate = true;
     }
 
     private void OnCollisionEnter(Collision collision)
