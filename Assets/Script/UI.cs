@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UI : MonoBehaviour
 {
@@ -35,5 +36,10 @@ public class UI : MonoBehaviour
         {
             textEndGame.SetActive(true);
         }
+    }
+
+    public void ButtonMainMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 }

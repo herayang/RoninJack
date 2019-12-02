@@ -7,7 +7,7 @@ using UnityEngine.Windows.Speech;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 3.0f;
+    public float moveSpeed = 3.0f;
     [SerializeField] private float jumpHight = 3.0f;
     [SerializeField] private float jumpSpeed = 0.25f;
     [SerializeField] private bool canJump = true;
