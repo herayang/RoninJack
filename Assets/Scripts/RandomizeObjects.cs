@@ -35,7 +35,7 @@ public class RandomizeObjects : MonoBehaviour
 
         int numObjects = Random.Range(minNumObjects, maxNumObjects + 1);
         int numRemove = randomizedObjects.Length - numObjects;
-        Debug.Log("numObjects: " + numObjects + " | numRemove: " + numRemove);
+        //Debug.Log("numObjects: " + numObjects + " | numRemove: " + numRemove);
 
         for (int i = 0; i < numRemove;)
         {

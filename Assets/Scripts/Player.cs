@@ -13,7 +13,6 @@ public class Player : MonoBehaviour
     [SerializeField] private bool canJump = true;
     [SerializeField] private bool canAnimate = true;
 
-    private int Score = 0;
     private Rigidbody RB;
     private Animation ANIM;
     private KeywordRecognizer keywordRecognizer;
@@ -38,8 +37,6 @@ public class Player : MonoBehaviour
     {
         transform.parent.Translate(new Vector3(0, 0, moveSpeed) * Time.deltaTime, Space.World);
         KeyboardCommands();
-        Score = (int)transform.parent.localPosition.z;
-        UI.SUI.UpdateScore(Score);
     }
 
     private void KeyboardCommands()
@@ -116,12 +113,12 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Obstacle")
         {
-            UI.SUI.EndLevel(false);
+            UI.SUI.EndLevel();
             gameObject.SetActive(false);
         }
         else if(collision.gameObject.tag == "End")
         {
-            UI.SUI.EndLevel(true);
+            UI.SUI.EndLevel();
             gameObject.SetActive(false);
         }
 
