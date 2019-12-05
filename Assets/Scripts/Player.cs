@@ -7,6 +7,7 @@ using UnityEngine.Windows.Speech;
 
 public class Player : MonoBehaviour
 {
+    private float yOffSet;
     public float moveSpeed = 3.0f;
     [SerializeField] private float jumpHight = 3.0f;
     [SerializeField] private float jumpSpeed = 0.25f;
@@ -15,6 +16,7 @@ public class Player : MonoBehaviour
 
     private Rigidbody RB;
     private Animation ANIM;
+    private CamaraFollower CF;
     private KeywordRecognizer keywordRecognizer;
     private Dictionary<string, Action> atctions = new Dictionary<string, Action>();
 
@@ -22,6 +24,9 @@ public class Player : MonoBehaviour
     {
         RB = gameObject.GetComponent<Rigidbody>();
         ANIM = gameObject.GetComponent<Animation>();
+        yOffSet = transform.localPosition.y;
+        CF = transform.parent.gameObject.GetComponent<CamaraFollower>();
+        CF.SetUp(this, moveSpeed, yOffSet);
 
         atctions.Add("slide", Slide);
         atctions.Add("attack ", Attack);
@@ -35,7 +40,11 @@ public class Player : MonoBehaviour
     //Movement should be done in FixedUpdate to look proper.
     private void FixedUpdate()
     {
-        transform.parent.Translate(new Vector3(0, 0, moveSpeed) * Time.deltaTime, Space.World);
+        if (canJump && transform.localPosition.y + (yOffSet * -1) != 0)
+        {
+            //Debug.Log(transform.localPosition.y + (yOffSet * -1));
+            CF.CheckOffSet();
+        }
         KeyboardCommands();
     }
 
@@ -86,6 +95,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator JumpCoroutine()
     {
+        canJump = false;
         canAnimate = false;
         ANIM.Play("BetterJump");
         ANIM.CrossFadeQueued("Run", 0.5f, QueueMode.CompleteOthers);
@@ -113,11 +123,13 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Obstacle")
         {
+            CF.enabled = false;
             UI.SUI.EndLevel();
             gameObject.SetActive(false);
         }
         else if(collision.gameObject.tag == "End")
         {
+            CF.enabled = false;
             UI.SUI.EndLevel();
             gameObject.SetActive(false);
         }

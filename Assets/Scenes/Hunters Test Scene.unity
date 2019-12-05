@@ -2072,6 +2072,7 @@ GameObject:
   - component: {fileID: 251871347}
   - component: {fileID: 251871346}
   - component: {fileID: 251871345}
+  - component: {fileID: 251871348}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2136,15 +2137,27 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 251871344}
-  m_LocalRotation: {x: 0.2588191, y: -0, z: -0, w: 0.9659258}
+  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
   m_LocalPosition: {x: 0, y: 6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 880674960}
   - {fileID: 1922005226}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
+--- !u!114 &251871348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251871344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01828d0c64770cc4ebae1196c4d64d1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &295797100
 GameObject:
   m_ObjectHideFlags: 0
@@ -2467,12 +2480,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 332001308}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_Father: {fileID: 909050647}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &342563868
 GameObject:
@@ -6000,6 +6013,7 @@ Transform:
   m_Children:
   - {fileID: 1448008034}
   - {fileID: 1804531346}
+  - {fileID: 332001311}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6015,6 +6029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0962a859697cc0648aa68dbce922ceeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CV: {fileID: 1448008030}
   scoreText: {fileID: 1664475786}
   screenEndGame: {fileID: 1384468561}
   scoreEndGame: {fileID: 1617353286}
@@ -7519,7 +7534,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &1157873632
 GameObject:
@@ -8570,7 +8585,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!224 &1448008034
 RectTransform:
@@ -12646,7 +12661,7 @@ Transform:
   - {fileID: 509002509}
   - {fileID: 1563787076}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2111623068
 GameObject:

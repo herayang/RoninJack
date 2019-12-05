@@ -9,6 +9,7 @@ public class UI : MonoBehaviour
 {
     static public UI SUI;
 
+    [SerializeField] private GameObject CV = null;
     [SerializeField] private Text scoreText = null;
     [SerializeField] private GameObject screenEndGame = null;
     [SerializeField] private Text scoreEndGame = null;
@@ -35,6 +36,7 @@ public class UI : MonoBehaviour
 
     public void EndLevel()
     {
+        GameObject.Destroy(CV);
         screenEndGame.SetActive(true);
         scoreEndGame.text = "Your Score Is: " + score;
 
