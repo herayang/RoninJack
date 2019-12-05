@@ -2,15 +2,16 @@
 
 public class CamaraFollower : MonoBehaviour
 {
+    [SerializeField] private Transform camara = null;
     private Player player;
     private float moveSpeed;
-    private float playerOffSet;
+    private float camaraOffSet;
 
-    public void SetUp(Player p, float speed, float offSet)
+    public void SetUp(Player p, float speed)
     {
         player = p;
         moveSpeed = speed;
-        playerOffSet = offSet;
+        camaraOffSet = camara.localPosition.y;
     }
 
     private void FixedUpdate()
@@ -18,8 +19,8 @@ public class CamaraFollower : MonoBehaviour
         transform.Translate(new Vector3(0, 0, moveSpeed) * Time.fixedDeltaTime, Space.World);
     }
 
-    public void CheckOffSet()
+    public void UpdateCamara(float playerY)
     {
-        
+        camara.position = new Vector3(camara.position.x, playerY + camaraOffSet, camara.position.z);
     }
 }

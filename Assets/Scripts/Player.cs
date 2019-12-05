@@ -7,7 +7,6 @@ using UnityEngine.Windows.Speech;
 
 public class Player : MonoBehaviour
 {
-    private float yOffSet;
     public float moveSpeed = 3.0f;
     [SerializeField] private float jumpHight = 3.0f;
     [SerializeField] private float jumpSpeed = 0.25f;
@@ -24,9 +23,8 @@ public class Player : MonoBehaviour
     {
         RB = gameObject.GetComponent<Rigidbody>();
         ANIM = gameObject.GetComponent<Animation>();
-        yOffSet = transform.localPosition.y;
         CF = transform.parent.gameObject.GetComponent<CamaraFollower>();
-        CF.SetUp(this, moveSpeed, yOffSet);
+        CF.SetUp(this, moveSpeed);
 
         atctions.Add("slide", Slide);
         atctions.Add("attack ", Attack);
@@ -40,11 +38,7 @@ public class Player : MonoBehaviour
     //Movement should be done in FixedUpdate to look proper.
     private void FixedUpdate()
     {
-        if (canJump && transform.localPosition.y + (yOffSet * -1) != 0)
-        {
-            //Debug.Log(transform.localPosition.y + (yOffSet * -1));
-            CF.CheckOffSet();
-        }
+        CF.UpdateCamara(transform.position.y);
         KeyboardCommands();
     }
 
