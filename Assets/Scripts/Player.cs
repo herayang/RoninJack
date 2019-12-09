@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     [SerializeField] private bool canAnimate = true;
 
     private Rigidbody RB;
-    private Animation ANIM;
+    public Animation ANIM;
     private CamaraFollower CF;
     private KeywordRecognizer keywordRecognizer;
     private Dictionary<string, Action> atctions = new Dictionary<string, Action>();
