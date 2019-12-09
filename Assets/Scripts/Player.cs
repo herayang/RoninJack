@@ -7,15 +7,15 @@ using UnityEngine.Windows.Speech;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 3.0f;
+    public float moveSpeed = 3.0f;
     [SerializeField] private float jumpHight = 3.0f;
     [SerializeField] private float jumpSpeed = 0.25f;
-    [SerializeField] private bool canJump = false;
-    [SerializeField] private bool invariable = false;
+    [SerializeField] private bool canJump = true;
+    [SerializeField] private bool canAnimate = true;
 
-    private int Score = 0;
     private Rigidbody RB;
     private Animation ANIM;
+    private CamaraFollower CF;
     private KeywordRecognizer keywordRecognizer;
     private Dictionary<string, Action> atctions = new Dictionary<string, Action>();
 
@@ -23,6 +23,8 @@ public class Player : MonoBehaviour
     {
         RB = gameObject.GetComponent<Rigidbody>();
         ANIM = gameObject.GetComponent<Animation>();
+        CF = transform.parent.gameObject.GetComponent<CamaraFollower>();
+        CF.SetUp(this, moveSpeed);
 
         atctions.Add("slide", Slide);
         atctions.Add("attack ", Attack);
@@ -36,10 +38,8 @@ public class Player : MonoBehaviour
     //Movement should be done in FixedUpdate to look proper.
     private void FixedUpdate()
     {
-        transform.parent.Translate(new Vector3(0, 0, moveSpeed) * Time.deltaTime, Space.World);
+        CF.UpdateCamara(transform.position.y);
         KeyboardCommands();
-        Score = (int)transform.parent.localPosition.z;
-        UI.SUI.UpdateScore(Score);
     }
 
     private void KeyboardCommands()
@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
 
     private void Slide()
     {
-        if(invariable == false)
+        if(canAnimate)
         {
             StartCoroutine(SlideCoroutine());
         }
@@ -61,12 +61,15 @@ public class Player : MonoBehaviour
 
     private void Attack()
     {
-        //Nothing here for now;
+        if (canAnimate)
+        {
+            StartCoroutine(AttackCoroutine());
+        }
     }
 
     private void Jump()
     {
-        if(canJump)
+        if(canAnimate && canJump)
         {
             StartCoroutine(JumpCoroutine());
         }
@@ -79,15 +82,17 @@ public class Player : MonoBehaviour
 
     private IEnumerator SlideCoroutine()
     {
-        invariable = true;
-        yield return new WaitForSeconds(5);
-        invariable = false;
+        canAnimate = false;
+        yield return new WaitForSeconds(2);
+        canAnimate = true;
     }
 
     private IEnumerator JumpCoroutine()
     {
         canJump = false;
-        ANIM.Play("Jump");
+        canAnimate = false;
+        ANIM.Play("BetterJump");
+        ANIM.CrossFadeQueued("Run", 0.5f, QueueMode.CompleteOthers);
         RB.useGravity = false;
         float playersY = transform.position.y;
         while (transform.position.y < (playersY + jumpHight))
@@ -96,19 +101,30 @@ public class Player : MonoBehaviour
             yield return null;
         }
         RB.useGravity = true;
-        ANIM.CrossFade("Run", 1);
+        canAnimate = true;
+    }
+
+    private IEnumerator AttackCoroutine()
+    {
+        canAnimate = false;
+        ANIM.Play("RunningAttack");
+        ANIM.CrossFadeQueued("Run", 0.5f, QueueMode.CompleteOthers);
+        yield return new WaitForSeconds(1);
+        canAnimate = true;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Obstacle")
         {
-            UI.SUI.EndLevel(false);
+            CF.enabled = false;
+            UI.SUI.EndLevel();
             gameObject.SetActive(false);
         }
         else if(collision.gameObject.tag == "End")
         {
-            UI.SUI.EndLevel(true);
+            CF.enabled = false;
+            UI.SUI.EndLevel();
             gameObject.SetActive(false);
         }
 

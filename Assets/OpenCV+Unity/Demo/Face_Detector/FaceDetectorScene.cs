@@ -33,8 +33,8 @@
 
 #if UNITY_EDITOR
 				// query user to download the proper shape predictor
-				if (UnityEditor.EditorUtility.DisplayDialog("Shape predictor data missing", errorMessage, "Download", "OK, process with face rects only"))
-					Application.OpenURL("http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2");
+				//if (UnityEditor.EditorUtility.DisplayDialog("Shape predictor data missing", errorMessage, "Download", "OK, process with face rects only"))
+				//	Application.OpenURL("http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2");
 #else
              UnityEngine.Debug.Log(errorMessage);
 #endif

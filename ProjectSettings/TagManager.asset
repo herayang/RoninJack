@@ -4,8 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - boom
-  - poop
   - Obstacle
   - End
   layers:
