@@ -8,7 +8,7 @@ public class Destrucible : MonoBehaviour
 
     void OnMouseDown ()
     {
-        Instantiate(destroyedVersion, transform.position, transform.rotation);
+        Instantiate(destroyedVersion, transform.position, Quaternion.Euler(0,0,0));
         Destroy(gameObject);
     }
 }
