@@ -1,16 +1,28 @@
 fileFormatVersion: 2
-guid: 7800f053bed80794293f869c1689a887
+guid: d4c2180a9df837c47b8dbb9e04430e38
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: default
-    100002: //RootNode
-    400000: default
-    400002: //RootNode
-    2100000: defaultMat
-    2300000: default
-    3300000: default
-    4300000: default
+    100000: Camera
+    100002: leaves
+    100004: Light
+    100006: tree
+    100008: //RootNode
+    400000: Camera
+    400002: leaves
+    400004: Light
+    400006: tree
+    400008: //RootNode
+    2000000: Camera
+    2100000: Material.002
+    2100002: Material.001
+    2300000: leaves
+    2300002: tree
+    3300000: leaves
+    3300002: tree
+    4300000: tree
+    4300002: leaves
+    10800000: Light
   externalObjects: {}
   materials:
     importMaterials: 1
