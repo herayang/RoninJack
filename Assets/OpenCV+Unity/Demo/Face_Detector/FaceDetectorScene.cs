@@ -23,22 +23,22 @@
 			base.forceFrontalCamera = true; // we work with frontal cams here, let's force it for macOS s MacBook doesn't state frontal cam correctly
 
 			byte[] shapeDat = shapes.bytes;
-			if (shapeDat.Length == 0)
-			{
-				string errorMessage =
-					"In order to have Face Landmarks working you must download special pre-trained shape predictor " +
-					"available for free via DLib library website and replace a placeholder file located at " +
-					"\"OpenCV+Unity/Assets/Resources/shape_predictor_68_face_landmarks.bytes\"\n\n" +
-					"Without shape predictor demo will only detect face rects.";
+//			if (shapeDat.Length == 0)
+//			{
+//				string errorMessage =
+//					"In order to have Face Landmarks working you must download special pre-trained shape predictor " +
+//					"available for free via DLib library website and replace a placeholder file located at " +
+//					"\"OpenCV+Unity/Assets/Resources/shape_predictor_68_face_landmarks.bytes\"\n\n" +
+//					"Without shape predictor demo will only detect face rects.";
 
-#if UNITY_EDITOR
-				// query user to download the proper shape predictor
-				//if (UnityEditor.EditorUtility.DisplayDialog("Shape predictor data missing", errorMessage, "Download", "OK, process with face rects only"))
-				//	Application.OpenURL("http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2");
-#else
-             UnityEngine.Debug.Log(errorMessage);
-#endif
-			}
+//#if UNITY_EDITOR
+//				// query user to download the proper shape predictor
+//				if (UnityEditor.EditorUtility.DisplayDialog("Shape predictor data missing", errorMessage, "Download", "OK, process with face rects only"))
+//					Application.OpenURL("http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2");
+//#else
+//             UnityEngine.Debug.Log(errorMessage);
+//#endif
+//			}
 
 			processor = new FaceProcessorLive<WebCamTexture>();
 			processor.Initialize(faces.text, eyes.text, shapes.bytes);

@@ -55,6 +55,7 @@ public class UI : MonoBehaviour
             }
         }
         UpdateHighScores();
+        score = 0;
     }
 
     public void ButtonMainMenu()
@@ -64,7 +65,7 @@ public class UI : MonoBehaviour
 
     public void ResetHighScores()
     {
-        string path = "Assets/HighScores.txt";
+        string path = "HighScores.txt";
         StreamWriter writer = new StreamWriter(path, false);
         writer.WriteLine("600");
         writer.WriteLine("480");
@@ -80,7 +81,7 @@ public class UI : MonoBehaviour
 
     public void SaveHighScores()
     {
-        string path = "Assets/HighScores.txt";
+        string path = "HighScores.txt";
         StreamWriter writer = new StreamWriter(path, false);
         writer.WriteLine(highScores[0]);
         writer.WriteLine(highScores[1]);
@@ -96,14 +97,21 @@ public class UI : MonoBehaviour
 
     public void LoadHighScores()
     {
-        string path = "Assets/HighScores.txt";
-        StreamReader reader = new StreamReader(path);
-        //Debug.Log(reader.ReadToEnd());
-        for (int i = 0; i < highScores.Length; i++)
+        string path = "HighScores.txt";
+        if (File.Exists(path))
         {
-            highScores[i] = reader.ReadLine();
+            StreamReader reader = new StreamReader(path);
+            //Debug.Log(reader.ReadToEnd());
+            for (int i = 0; i < highScores.Length; i++)
+            {
+                highScores[i] = reader.ReadLine();
+            }
+            reader.Close();
         }
-        reader.Close();
+        else
+        {
+            ResetHighScores();
+        }
     }
 
     public void UpdateHighScores()

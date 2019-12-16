@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
         atctions.Add("attack ", Attack);
         atctions.Add("jump", Jump);
 
+        //if(System.)
         keywordRecognizer = new KeywordRecognizer(atctions.Keys.ToArray());
         keywordRecognizer.OnPhraseRecognized += RecognizedKeyword;
         keywordRecognizer.Start();
@@ -47,13 +48,14 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) Slide();
         if (Input.GetKeyDown(KeyCode.Z)) Attack();
         if (Input.GetKeyDown(KeyCode.Space)) Jump();
-        if (Input.GetAxis("Horizontal") != 0) transform.position += new Vector3(Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime, 0, 0);
-        if (Input.GetAxis("Vertical") != 0) transform.position += new Vector3(0, 0, Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime);
+        //if (Input.GetAxis("Horizontal") != 0) transform.position += new Vector3(Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime, 0, 0);
+        //if (Input.GetAxis("Vertical") != 0) transform.position += new Vector3(0, 0, Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime);
+        if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
     }
 
     private void Slide()
     {
-        if(canAnimate)
+        if (canAnimate)
         {
             StartCoroutine(SlideCoroutine());
         }
@@ -69,7 +71,7 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        if(canAnimate && canJump)
+        if (canAnimate && canJump)
         {
             StartCoroutine(JumpCoroutine());
         }
@@ -121,16 +123,24 @@ public class Player : MonoBehaviour
             UI.SUI.EndLevel();
             gameObject.SetActive(false);
         }
-        else if(collision.gameObject.tag == "End")
-        {
-            CF.enabled = false;
-            UI.SUI.EndLevel();
-            gameObject.SetActive(false);
-        }
 
         if (canJump == false & collision.gameObject.isStatic)
         {
             canJump = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.tag == "Turn")
+        {
+            CF.Turn(collision.gameObject.GetComponent<Turn>().turnTargetRotation, collision.gameObject.GetComponent<Turn>().turnSpeed);
+        }
+        else if (collision.gameObject.tag == "End")
+        {
+            CF.enabled = false;
+            UI.SUI.EndLevel();
+            gameObject.SetActive(false);
         }
     }
 }
