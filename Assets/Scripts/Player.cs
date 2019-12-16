@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     [SerializeField] private bool canAnimate = true;
 
     private Rigidbody RB;
-    public Animation ANIM;
+    [HideInInspector] public Animation ANIM;
     private CamaraFollower CF;
     private KeywordRecognizer keywordRecognizer;
     private Dictionary<string, Action> atctions = new Dictionary<string, Action>();
@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
         CF.SetUp(this, moveSpeed);
 
         atctions.Add("slide", Slide);
-        atctions.Add("attack ", Attack);
+        atctions.Add("hit ", Attack);
         atctions.Add("jump", Jump);
 
         //if(System.)

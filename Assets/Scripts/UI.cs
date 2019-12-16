@@ -30,8 +30,8 @@ public class UI : MonoBehaviour
 
     public void UpdateScore()
     {
-        score = (int)Time.time;
-        scoreText.text = "Score: " + score;
+        //score = (int)Time.time;
+        //scoreText.text = "Score: " + score;
     }
 
     public void EndLevel()
@@ -67,15 +67,15 @@ public class UI : MonoBehaviour
     {
         string path = "HighScores.txt";
         StreamWriter writer = new StreamWriter(path, false);
-        writer.WriteLine("600");
-        writer.WriteLine("480");
-        writer.WriteLine("360");
-        writer.WriteLine("240");
-        writer.WriteLine("180");
-        writer.WriteLine("120");
-        writer.WriteLine("60");
-        writer.WriteLine("30");
-        writer.Write("10");
+        writer.WriteLine("0");
+        writer.WriteLine("0");
+        writer.WriteLine("0");
+        writer.WriteLine("0");
+        writer.WriteLine("0");
+        writer.WriteLine("0");
+        writer.WriteLine("0");
+        writer.WriteLine("0");
+        writer.Write("0");
         writer.Close();
     }
 
