@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     private KeywordRecognizer keywordRecognizer;
     private Dictionary<string, Action> atctions = new Dictionary<string, Action>();
 
+    public AudioSource[] audioSources;
+
     void Start()
     {
         moveSpeed = mainMenu.gameSpeed;
@@ -28,8 +30,9 @@ public class Player : MonoBehaviour
         CF = transform.parent.gameObject.GetComponent<CamaraFollower>();
         CF.SetUp(this, moveSpeed);
 
+        audioSources = gameObject.GetComponents<AudioSource>();
         atctions.Add("slide", Slide);
-        atctions.Add("hit ", Attack);
+        atctions.Add("hit", Attack);
         atctions.Add("jump", Jump);
 
         //if(System.)
@@ -95,6 +98,7 @@ public class Player : MonoBehaviour
     {
         canJump = false;
         canAnimate = false;
+        audioSources[0].Play();
         ANIM.Play("BetterJump");
         ANIM.CrossFadeQueued("Run", 0.5f, QueueMode.CompleteOthers);
         RB.useGravity = false;
@@ -111,6 +115,7 @@ public class Player : MonoBehaviour
     private IEnumerator AttackCoroutine()
     {
         canAnimate = false;
+        audioSources[1].Play();
         ANIM.Play("RunningAttack");
         ANIM.CrossFadeQueued("Run", 0.5f, QueueMode.CompleteOthers);
         yield return new WaitForSeconds(1);
@@ -121,6 +126,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Obstacle")
         {
+            audioSources[2].Play();
             CF.enabled = false;
             UI.SUI.EndLevel();
             gameObject.SetActive(false);
