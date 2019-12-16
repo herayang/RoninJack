@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        moveSpeed = mainMenu.gameSpeed;
+        Debug.Log(moveSpeed);
         RB = gameObject.GetComponent<Rigidbody>();
         ANIM = gameObject.GetComponent<Animation>();
         CF = transform.parent.gameObject.GetComponent<CamaraFollower>();

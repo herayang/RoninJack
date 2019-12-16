@@ -8,7 +8,15 @@ public class mainMenu : MonoBehaviour
 {
     static public float gameSpeed;
 
-	public void playGame() {
+    private void Start()
+    {
+        if (gameSpeed != 0.0f)
+        {
+            gameSpeed = 6;
+        }
+    }
+
+    public void playGame() {
         SceneManager.LoadScene(1);
 	}
 
@@ -20,6 +28,7 @@ public class mainMenu : MonoBehaviour
     public void ButtonSpeed(float speed)
     {
         gameSpeed = speed;
+        Debug.Log(gameSpeed);
     }
 
     public void ResetHighScores()
