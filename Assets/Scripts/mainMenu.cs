@@ -10,7 +10,7 @@ public class mainMenu : MonoBehaviour
 
     private void Start()
     {
-        if (gameSpeed != 0.0f)
+        if (gameSpeed == 0.0f)
         {
             gameSpeed = 6;
         }

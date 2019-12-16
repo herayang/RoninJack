@@ -111,6 +111,14 @@ public class UI : MonoBehaviour
         else
         {
             ResetHighScores();
+
+            StreamReader reader = new StreamReader(path);
+            //Debug.Log(reader.ReadToEnd());
+            for (int i = 0; i < highScores.Length; i++)
+            {
+                highScores[i] = reader.ReadLine();
+            }
+            reader.Close();
         }
     }
 
