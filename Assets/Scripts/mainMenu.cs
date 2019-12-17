@@ -12,7 +12,7 @@ public class mainMenu : MonoBehaviour
     {
         if (gameSpeed == 0.0f)
         {
-            gameSpeed = 6;
+            gameSpeed = 6; //3,6,12
         }
     }
 
@@ -28,7 +28,6 @@ public class mainMenu : MonoBehaviour
     public void ButtonSpeed(float speed)
     {
         gameSpeed = speed;
-        Debug.Log(gameSpeed);
     }
 
     public void ResetHighScores()

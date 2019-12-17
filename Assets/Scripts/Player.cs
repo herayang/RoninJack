@@ -7,11 +7,11 @@ using UnityEngine.Windows.Speech;
 
 public class Player : MonoBehaviour
 {
-    public float moveSpeed = 3.0f;
+    [HideInInspector] public float moveSpeed;
     [SerializeField] private float jumpHight = 3.0f;
     [SerializeField] private float jumpSpeed = 0.25f;
-    [SerializeField] private bool canJump = true;
-    [SerializeField] private bool canAnimate = true;
+    private bool canJump = true;
+    private bool canAnimate = true;
 
     private Rigidbody RB;
     [HideInInspector] public Animation ANIM;
@@ -23,8 +23,14 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        moveSpeed = mainMenu.gameSpeed;
-        Debug.Log(moveSpeed);
+        if(mainMenu.gameSpeed != 0)
+        {
+            moveSpeed = mainMenu.gameSpeed;
+        }
+        else
+        {
+            moveSpeed = 6;
+        }
         RB = gameObject.GetComponent<Rigidbody>();
         ANIM = gameObject.GetComponent<Animation>();
         CF = transform.parent.gameObject.GetComponent<CamaraFollower>();
@@ -46,6 +52,10 @@ public class Player : MonoBehaviour
     {
         CF.UpdateCamara(transform.position.y);
         KeyboardCommands();
+        if(transform.localPosition.z < -3)
+        {
+            Die();
+        }
     }
 
     private void KeyboardCommands()
@@ -126,13 +136,10 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Obstacle")
         {
-            audioSources[2].Play();
-            CF.enabled = false;
-            UI.SUI.EndLevel();
-            gameObject.SetActive(false);
+            Die();
         }
 
-        if (canJump == false & collision.gameObject.isStatic)
+        if (canJump == false & collision.gameObject.tag == "Ground")
         {
             canJump = true;
         }
@@ -150,5 +157,13 @@ public class Player : MonoBehaviour
             UI.SUI.EndLevel();
             gameObject.SetActive(false);
         }
+    }
+
+    private void Die()
+    {
+        audioSources[2].Play();
+        CF.enabled = false;
+        UI.SUI.EndLevel();
+        gameObject.SetActive(false);
     }
 }
