@@ -36,8 +36,8 @@ public class Player : MonoBehaviour
         CF = transform.parent.gameObject.GetComponent<CamaraFollower>();
         CF.SetUp(this, moveSpeed);
 
-        audioSources = gameObject.GetComponents<AudioSource>();
-        atctions.Add("slide", Slide);
+        audioSources = transform.parent.gameObject.GetComponents<AudioSource>();
+        //atctions.Add("slide", Slide);
         atctions.Add("hit", Attack);
         atctions.Add("jump", Jump);
 
@@ -60,7 +60,7 @@ public class Player : MonoBehaviour
 
     private void KeyboardCommands()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) Slide();
+        //if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) Slide();
         if (Input.GetKeyDown(KeyCode.Z)) Attack();
         if (Input.GetKeyDown(KeyCode.Space)) Jump();
         //if (Input.GetAxis("Horizontal") != 0) transform.position += new Vector3(Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime, 0, 0);
@@ -108,7 +108,7 @@ public class Player : MonoBehaviour
     {
         canJump = false;
         canAnimate = false;
-        audioSources[0].Play();
+        audioSources[2].Play();
         ANIM.Play("BetterJump");
         ANIM.CrossFadeQueued("Run", 0.5f, QueueMode.CompleteOthers);
         RB.useGravity = false;
@@ -159,9 +159,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Die()
+    public void Die()
     {
-        audioSources[2].Play();
+        audioSources[0].Play();
         CF.enabled = false;
         UI.SUI.EndLevel();
         gameObject.SetActive(false);
