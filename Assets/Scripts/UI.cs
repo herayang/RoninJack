@@ -16,11 +16,17 @@ public class UI : MonoBehaviour
     [SerializeField] private int score = 0;
     [SerializeField] private Text[] highScoresText = new Text[9];
     [SerializeField] private string[] highScores = new string[9];
+    private Transform player;
 
     private void Awake()
     {
         if (SUI == null) SUI = this;
         else gameObject.SetActive(false);
+    }
+
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     private void FixedUpdate()
@@ -30,8 +36,8 @@ public class UI : MonoBehaviour
 
     public void UpdateScore()
     {
-        //score = (int)Time.time;
-        //scoreText.text = "Score: " + score;
+        score = (int)player.position.z;
+        scoreText.text = "Score: " + score;
     }
 
     public void EndLevel()
